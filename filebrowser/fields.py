@@ -124,6 +124,11 @@ class FileBrowseField(with_metaclass(models.SubfieldBase, CharField)):
             'extensions': self.extensions,
             'format': self.format
         }
+        # Check that kwargs does not override filebrowse widget with standard grappelli widget
+        # but allow it to override with inheritors of filebrowse widget:
+        if kwargs and kwargs.get('widget'):
+            if isinstance(kwargs['widget'], FileBrowseWidget):
+                defaults.update(kwargs)
         return super(FileBrowseField, self).formfield(**defaults)
 
 
