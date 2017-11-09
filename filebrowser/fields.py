@@ -38,7 +38,9 @@ class FileBrowseWidget(Input):
         super(FileBrowseWidget, self).__init__(attrs)
 
     def render(self, name, value, attrs=None):
-        url = urlresolvers.reverse(self.site.name + ":fb_browse")
+        # TODO: For some reason, the filebrowser is not always selected for the widget. As a quick fix,
+        # in this case I use a hard-coded url:
+        url = urlresolvers.reverse(self.site.name + ":fb_browse") if self.site else '/admin/filebrowser/browse/'
         if value is None:
             value = ""
         if value != "" and not isinstance(value, FileObject):
